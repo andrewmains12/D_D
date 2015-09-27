@@ -1,0 +1,10 @@
+CAMPAIGN:Extra Curse of the Crimson Throne
+GAMEMODE:Pathfinder
+RANK:3
+GENRE:Fantasy
+BOOKTYPE:Homebrew
+SETTING:Korvosa
+TYPE:Homebrew.PathfinderHomebrew
+SOURCEDATE:2015-09
+
+ABILITY:extra_abilities.lst

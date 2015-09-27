@@ -1,0 +1,18 @@
+Family Honor
+	KEY:Family Honor ~ Trait
+	CATEGORY:Special Ability
+	TYPE:Trait.BasicTrait
+	PREMULT:1,[PREABILITY:1,CATEGORY=Special Ability,Family Honor ~ Trait],[!PREABILITY:1,CATEGORY=Special Ability,TYPE.BasicTrait]
+	DESC:Someone you know and love was accused of murder. A supposed eyewitness account from a local fisherman seemed to be enough to seal the case, but the accused had enough alibis that sentencing wasn’t immediate. Someone confronted the fisherman and discovered he was intimidated into providing false witness and forced into planting the murder weapon by the actual murderer—a local crimelord. His thugs killed the fisherman before he could recant his testimony. Although this removed the key witness and resulted in the accused being set free, the stigma was enough to badly damage his reputation. If you can find the crimelord, you’re sure you can find evidence that ties him to the murder and can clear the accused’s name. 
+	BENEFIT:Family Honor: The person framed was a family member, perhaps a father or brother. You managed to trick the fisherman into revealing the truth with your skilled tongue, and thus gain a +2 bonus on Bluff checks. 
+	BONUS:SKILL|Bluff|2
+
+Roof Runner
+	KEY:Roof Runner ~ Trait
+	CATEGORY:Special Ability
+	TYPE:Trait.BasicTrait
+# PREMULT:1,[PREABILITY:1,CATEGORY=Special Ability,Family Honor ~ Trait],[!PREABILITY:1,CATEGORY=Special Ability,TYPE.BasicTrait]
+	DESC:As a child, you spent a lot of time running the interconnected rooftops your home city. As a result, you are particularly adept at climbing, jumping, and avoiding falls.
+	BENEFIT:Benefit: You gain a +2 bonus on Climb and Acrobatics check, and may take 10 on Climb checks even when distracted. If you fall, you automatically reduce the damage taken by the fall by one die, as if you had fallen 10 less feet. This reduction in damage stacks with the Acrobatics check to further reduce falling damage.
+	BONUS:SKILL|ACROBATICS|2
+
