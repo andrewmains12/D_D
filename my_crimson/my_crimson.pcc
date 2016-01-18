@@ -1,3 +1,4 @@
+# CVS $Revision$ $Author$ -- Sat Sep 26 19:53:40 2015 -- reformated by PCGen PrettyLST v6.04.01
 CAMPAIGN:Extra Curse of the Crimson Throne
 GAMEMODE:Pathfinder
 RANK:3
@@ -8,3 +9,4 @@ TYPE:Homebrew.PathfinderHomebrew
 SOURCEDATE:2015-09
 
 ABILITY:extra_abilities.lst
+LANGUAGE:extra_languages.lst
