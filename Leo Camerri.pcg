@@ -165,14 +165,17 @@ ABILITY:Rogue Class Selection|TYPE:NORMAL|CATEGORY:Class|KEY:Rogue ~ Unchained C
 USERPOOL:Rogue Class Selection|POOLPOINTS:0.0
 ABILITY:Rogue Talent|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Rogue Talent ~ Terrain Mastery|APPLIEDTO:|TYPE:SpecialQuality.Extraordinary.RogueTalent|DESC:A rogue with this talent gains a favored terrain as the ranger ability of the same name, though the favored terrain ability does not increase with her level as the ranger's ability does. A rogue can take this ability multiple times, each time applying it to a new terrain, and granting all other favored terrains a +2 increase to the favored terrain bonus.
 ABILITY:Rogue Talent|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Rogue Talent ~ Weapon Training|TYPE:RogueClassFeatures.SpecialQuality.Extraordinary.RogueTalent|DESC:You gain Weapon Focus as a bonus feat.
-USERPOOL:Rogue Talent|POOLPOINTS:0.0
+USERPOOL:Rogue Talent|POOLPOINTS:2.0
 ABILITY:Skill Unlock Choice|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Skill unlock ~ Acrobatics|TYPE:SkillUnlock
 USERPOOL:Skill Unlock Choice|POOLPOINTS:0.0
 ABILITY:Terrain Mastery|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Terrain Mastery 1|APPLIEDTO:Urban|TYPE:Terrain Mastery|DESC:+%1 vs. %2&pipe;FavoredTerrain1&pipe;%CHOICE
 USERPOOL:Terrain Mastery|POOLPOINTS:0.0
 ABILITY:Traits|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Framed (Family Honor)|TYPE:Trait.CampaignTrait|DESC:A family member, perhaps a father or brother, was accused of murder. A supposed eyewitness account from a local fisherman seemed to be enough to seal the case, but the accused had enough alibis that sentencing wasn't immediate. You managed to trick the fisherman into revealing the truth with your skilled tongue and discovered he was intimidated into providing false witness and forced into planting the murder weapon by the actual murderer--a local crimelord named Gaedren Lamm. Lamm's thugs killed the fisherman before he could recant his testimony. Although this removed the key witness and resulted in the accused being set free, the stigma was enough to badly damage his reputation. If you can find Gaedren, you're sure you can find evidence that ties him to the murder and can clear the accused's name. You gain a +2 trait bonus on Bluff checks, and Bluff is always considered a class skill for you.
 ABILITY:Traits|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Trait ~ Dirty Fighter|TYPE:Trait.BasicTrait.CombatTrait|DESC:You wouldn't have lived to make it out of childhood without the aid of a sibling, friend, or companion on whom you could always count to distract your enemies long enough to do a little bit more damage than normal. When you hit a foe you are flanking, you deal an additional 1 point of damage (this damage is added to your base damage, and is multiplied on a critical hit). This additional damage is a trait bonus.
-USERPOOL:Traits|POOLPOINTS:1.0
+USERPOOL:Traits|POOLPOINTS:0.0
+ABILITY:Unchained Rogue Finesse Damage Choice|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Unchained Rogue ~ Finesse Training Choice|APPLIEDTO:Sword (Short)|TYPE:Unchained Rogue Finesse Damage Choice.SpecialQuality.Extraordinary|DESC:Dexterity to Damage with %1&pipe;%LIST
+USERPOOL:Unchained Rogue Finesse Damage Choice|POOLPOINTS:0.0
+USERPOOL:Unchained Rogue Talent|POOLPOINTS:-2.0
 ABILITY:Weapon Training|TYPE:NORMAL|CATEGORY:FEAT|KEY:Weapon Focus|APPLIEDTO:Sword (Short)|TYPE:Combat.WeaponFocus.OracleWeaponMastery.CelestialBloodragerBloodline.DestinedBloodragerBloodline.ElementalBloodragerBloodline.DestinedBloodline|DESC:You are especially good at using your chosen weapon.
 USERPOOL:Weapon Training|POOLPOINTS:0.0
 
@@ -183,30 +186,36 @@ WEAPONPROF:[WEAPON:Rapier|WEAPON:Rock|WEAPON:Sap|WEAPON:Shortbow|WEAPON:Shortspe
 WEAPONPROF:[WEAPON:Spells (Touch)|WEAPON:Splash Weapon|WEAPON:Stake|WEAPON:Sword (Short)|WEAPON:Unarmed Strike]
 
 # Character Equipment
-MONEY:189.00
+MONEY:1588.50
 EQUIPNAME:Acid (Flask)|OUTPUTORDER:0|COST:10|WT:1.0|QUANTITY:1.0|NOTE:
+EQUIPNAME:Alchemist's Fire (Flask)|OUTPUTORDER:0|COST:20|WT:1.0|QUANTITY:2.0|NOTE:
 EQUIPNAME:Arrow (Fire)|OUTPUTORDER:0|COST:0.05|WT:0.15|QUANTITY:2.0|NOTE:|CUSTOMIZATION:[BASEITEM:Arrow|DATA:NAME=Arrow (Fire)$EQMOD=STEEL.WOOD.ADDTYPE&pipe;Fire]
 EQUIPNAME:Backpack|OUTPUTORDER:3|COST:2|WT:2.0|QUANTITY:1.0|NOTE:
 EQUIPNAME:Blackjack's Dagger|OUTPUTORDER:4|COST:302.0|WT:1.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Dagger|DATA:NAME=Blackjack's Dagger$EQMOD=STEEL.MWORKW$SPROP=(Masterwork Dagger)]
 EQUIPNAME:Caltrops|OUTPUTORDER:4|COST:1|WT:2.0|QUANTITY:1.0|NOTE:
 EQUIPNAME:Crossbow (Light)|OUTPUTORDER:1|COST:35.0|WT:4.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Crossbow (Light)|DATA:NAME=Crossbow (Light)$EQMOD=WOOD]
 EQUIPNAME:Dagger|OUTPUTORDER:3|COST:2.0|WT:1.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Dagger|DATA:NAME=Dagger$EQMOD=STEEL]
+EQUIPNAME:Eversmoking Bottle|OUTPUTORDER:0|COST:5400|WT:1.0|QUANTITY:1.0|NOTE:
 EQUIPNAME:Grappling Hook|OUTPUTORDER:5|COST:1|WT:4.0|QUANTITY:1.0|NOTE:
+EQUIPNAME:Masterwork Dagger|OUTPUTORDER:0|COST:302.0|WT:1.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Dagger|DATA:NAME=Masterwork Dagger$EQMOD=STEEL.MWORKW]
+EQUIPNAME:Masterwork Thieves' Tools|OUTPUTORDER:0|COST:100.0|WT:1.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Thieves' Tools|DATA:NAME=Masterwork Thieves' Tools$KEY=Masterwork Thieves_ Tools$EQMOD=MWORKT]
 EQUIPNAME:Outfit (Peasant's)|OUTPUTORDER:6|COST:0.0|WT:2.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Outfit (Peasant's)|DATA:NAME=Outfit (Peasant's)$COSTMOD=-0.1]
 EQUIPNAME:Piton|OUTPUTORDER:7|COST:0.1|WT:0.5|QUANTITY:10.0|NOTE:
 EQUIPNAME:Poison (Blue Whinnis)|OUTPUTORDER:0|COST:120|WT:0.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Poison (Blue Whinnis)|DATA:NAME=Poison (Blue Whinnis)]
-EQUIPNAME:Shortbow|OUTPUTORDER:3|COST:30.0|WT:2.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Shortbow|DATA:NAME=Shortbow$EQMOD=WOOD]
+EQUIPNAME:Potion of Cure Moderate Wounds|OUTPUTORDER:0|COST:300|WT:0.0|QUANTITY:1.0|NOTE:
+EQUIPNAME:Ring of Jumping|OUTPUTORDER:2|COST:2500|WT:0.0|QUANTITY:1.0|NOTE:
+EQUIPNAME:Shortbow|OUTPUTORDER:4|COST:30.0|WT:2.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Shortbow|DATA:NAME=Shortbow$EQMOD=WOOD]
 EQUIPNAME:Small Sword (Short) (-2)|OUTPUTORDER:3|COST:10.0|WT:2.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Sword (Short)|DATA:NAME=Small Sword (Short) (-2)$EQMOD=STEEL$SPROP=(Sword (Short))]
 EQUIPNAME:Studded Leather|OUTPUTORDER:2|COST:25.0|WT:20.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Studded Leather|DATA:NAME=Studded Leather$EQMOD=LEATHER]
-EQUIPNAME:Studded Leather +1|OUTPUTORDER:2|COST:1175.0|WT:20.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Studded Leather|DATA:NAME=Studded Leather +1$EQMOD=LEATHER.PLUS1A]
+EQUIPNAME:Studded Leather +1|OUTPUTORDER:3|COST:1175.0|WT:20.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Studded Leather|DATA:NAME=Studded Leather +1$EQMOD=LEATHER.PLUS1A]
 EQUIPNAME:Sword (Short)|OUTPUTORDER:0|COST:10.0|WT:2.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Sword (Short)|DATA:NAME=Sword (Short)$EQMOD=STEEL]
 EQUIPNAME:Sword, Short +1|OUTPUTORDER:1|COST:2310.0|WT:2.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Sword (Short)|DATA:NAME=Sword, Short +1$KEY=Sword +1 (Short)$EQMOD=STEEL.PLUS1W]
 EQUIPNAME:Tanglefoot Bag|OUTPUTORDER:0|COST:50|WT:4.0|QUANTITY:1.0|NOTE:
-EQUIPNAME:Thieves' Tools|OUTPUTORDER:9|COST:30|WT:1.0|QUANTITY:1.0|NOTE:
 EQUIPSET:Default Set|ID:0.1|USETEMPMODS:Y
 EQUIPSET:Armor|ID:0.1.11|VALUE:Studded Leather +1|QUANTITY:1.0|USETEMPMODS:Y
 EQUIPSET:Primary Hand|ID:0.1.12|VALUE:Sword, Short +1|QUANTITY:1.0|USETEMPMODS:Y
 EQUIPSET:Carried|ID:0.1.13|VALUE:Shortbow|QUANTITY:1.0|USETEMPMODS:Y
+EQUIPSET:Ring|ID:0.1.14|VALUE:Ring of Jumping|QUANTITY:1.0|USETEMPMODS:Y
 EQUIPSET:Melee|ID:0.2|USETEMPMODS:Y
 CALCEQUIPSET:0.1
 
