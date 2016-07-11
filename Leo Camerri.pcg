@@ -223,8 +223,9 @@ EQUIPSET:Melee|ID:0.2|USETEMPMODS:Y
 CALCEQUIPSET:0.1
 
 # Temporary Bonuses
-TEMPBONUS:TEMPLATE=Ability Drained (Charisma)|TBTARGET:PC|TBACTIVE:N|TBBONUS:STAT&pipe;CHA&pipe;-1*(2)
-TEMPBONUS:TEMPLATE=Ability Drained (Constitution)|TBTARGET:PC|TBACTIVE:N|TBBONUS:STAT&pipe;CON&pipe;-1*(2)
+TEMPBONUS:TEMPLATE=Ability Drained (Charisma)|TBTARGET:PC|TBBONUS:STAT&pipe;CHA&pipe;-1*(2)
+TEMPBONUS:TEMPLATE=Ability Drained (Constitution)|TBTARGET:PC|TBBONUS:STAT&pipe;CON&pipe;-1*(2)
+TEMPBONUS:TEMPLATE=Ability Drained (Strength)|TBTARGET:PC|TBBONUS:STAT&pipe;STR&pipe;-1*(3)
 
 # EquipSet Temp Bonuses
 
