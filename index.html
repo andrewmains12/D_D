@@ -134,9 +134,7 @@ function handleStart() {
   if (gameState === 'idle' || gameState === 'won' || gameState === 'lost') {
     if (gameState === 'won') level++;
     if (gameState === 'lost') { lives = 3; score = 0; level = 1; }
-    initLevel();
-    gameState = 'playing';
-    msgEl.textContent = '';
+    initLevel(); // lands in 'serve' state
   } else if (gameState === 'serve') {
     launch();
     gameState = 'playing';
