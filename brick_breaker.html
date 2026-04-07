@@ -47,7 +47,7 @@
     <div>LEVEL: <span id="levelDisplay">1</span></div>
   </div>
   <canvas id="canvas" width="600" height="500"></canvas>
-  <div id="message">Tap or press SPACE to start</div>
+  <div id="message">Touch screen or press SPACE to start</div>
 
 <script>
 const canvas = document.getElementById('canvas');
@@ -115,13 +115,28 @@ canvas.addEventListener('mousemove', e => {
 // Touch controls
 canvas.addEventListener('touchstart', e => {
   e.preventDefault();
-  handleStart();
-  movePaddleToTouch(e.touches[0]);
+  // Initialize level on first touch, but don't launch yet
+  if (gameState === 'idle' || gameState === 'won' || gameState === 'lost') {
+    if (gameState === 'won') level++;
+    if (gameState === 'lost') { lives = 3; score = 0; level = 1; }
+    initLevel(); // goes to 'serve'
+  }
+  if (e.touches[0]) movePaddleToTouch(e.touches[0]);
 }, { passive: false });
 
 canvas.addEventListener('touchmove', e => {
   e.preventDefault();
-  movePaddleToTouch(e.touches[0]);
+  if (e.touches[0]) movePaddleToTouch(e.touches[0]);
+}, { passive: false });
+
+// Lift finger to launch
+canvas.addEventListener('touchend', e => {
+  e.preventDefault();
+  if (gameState === 'serve') {
+    launch();
+    gameState = 'playing';
+    msgEl.textContent = '';
+  }
 }, { passive: false });
 
 function movePaddleToTouch(touch) {
@@ -184,7 +199,7 @@ function resetBall() {
   ball.vx = 0;
   ball.vy = 0;
   gameState = 'serve';
-  msgEl.textContent = 'Tap or press SPACE to launch';
+  msgEl.textContent = 'Lift finger to launch — or press SPACE';
 }
 
 function launch() {
