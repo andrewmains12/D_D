@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Brick Breaker</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,6 +28,8 @@
       border: 2px solid #334;
       background: #050510;
       display: block;
+      max-width: 100vw;
+      touch-action: none;
     }
     #message {
       margin-top: 12px;
@@ -44,7 +47,7 @@
     <div>LEVEL: <span id="levelDisplay">1</span></div>
   </div>
   <canvas id="canvas" width="600" height="500"></canvas>
-  <div id="message">Press SPACE or click to start</div>
+  <div id="message">Tap or press SPACE to start</div>
 
 <script>
 const canvas = document.getElementById('canvas');
@@ -104,9 +107,38 @@ document.addEventListener('keyup', e => { keys[e.key] = false; });
 canvas.addEventListener('click', handleStart);
 canvas.addEventListener('mousemove', e => {
   const rect = canvas.getBoundingClientRect();
-  const mx = e.clientX - rect.left;
+  const scaleX = W / rect.width;
+  const mx = (e.clientX - rect.left) * scaleX;
   paddle.x = Math.max(0, Math.min(W - paddle.w, mx - paddle.w / 2));
 });
+
+// Touch controls
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  handleStart();
+  movePaddleToTouch(e.touches[0]);
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  movePaddleToTouch(e.touches[0]);
+}, { passive: false });
+
+function movePaddleToTouch(touch) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = W / rect.width;
+  const mx = (touch.clientX - rect.left) * scaleX;
+  paddle.x = Math.max(0, Math.min(W - paddle.w, mx - paddle.w / 2));
+}
+
+// Scale canvas to fit screen width on mobile
+function resizeCanvas() {
+  const maxW = Math.min(window.innerWidth, 600);
+  canvas.style.width = maxW + 'px';
+  canvas.style.height = (maxW * (500 / 600)) + 'px';
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
 function handleStart() {
   if (gameState === 'idle' || gameState === 'won' || gameState === 'lost') {
@@ -154,7 +186,7 @@ function resetBall() {
   ball.vx = 0;
   ball.vy = 0;
   gameState = 'serve';
-  msgEl.textContent = 'Press SPACE or click to launch';
+  msgEl.textContent = 'Tap or press SPACE to launch';
 }
 
 function launch() {
