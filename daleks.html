@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Daleks</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a0a;
+    color: #c0c0c0;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 8px;
+    overflow-x: hidden;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    color: #ff3333;
+    letter-spacing: 0.15em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  #ui-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    color: #aaa;
+    justify-content: center;
+  }
+
+  #ui-panel span { color: #fff; }
+
+  #board-wrapper {
+    position: relative;
+    border: 1px solid #333;
+    background: #050505;
+    width: 100%;
+    max-width: 780px;
+    overflow: hidden;
+  }
+
+  #game-board {
+    display: block;
+    font-size: clamp(7px, 1.25vw, 13px);
+    line-height: 1.25;
+    letter-spacing: 0.05em;
+    padding: 4px 6px;
+    white-space: pre;
+    width: 100%;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .player { color: #00ff88; font-weight: bold; }
+  .dalek  { color: #ff3333; }
+  .scrap  { color: #888800; }
+
+  #message-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    color: #ffff00;
+    font-size: clamp(0.9rem, 3vw, 1.5rem);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    padding: 16px;
+    z-index: 10;
+  }
+
+  #message-overlay.visible { display: flex; }
+  #message-overlay .subtitle { color: #aaa; font-size: 0.75em; }
+  #message-overlay .hi { color: #00ff88; }
+
+  #help-section {
+    max-width: 780px;
+    width: 100%;
+    margin-top: 6px;
+    font-size: 0.72rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  #controls {
+    max-width: 780px;
+    width: 100%;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  #dpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    width: 180px;
+  }
+
+  #action-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .ctrl-btn {
+    min-height: 52px;
+    min-width: 52px;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    color: #ddd;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.3rem;
+    cursor: pointer;
+    border-radius: 6px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+  }
+
+  .ctrl-btn:active { background: #333; }
+  .ctrl-btn.center { background: #111; color: #555; font-size: 1rem; }
+
+  .action-btn {
+    min-width: 90px;
+    font-size: 0.75rem;
+    padding: 0 10px;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.2;
+  }
+
+  .action-btn .label { font-size: 0.6rem; color: #888; }
+
+  .action-btn.teleport  { border-color: #448; color: #99f; }
+  .action-btn.safe-tp   { border-color: #484; color: #9f9; }
+  .action-btn.screwd    { border-color: #844; color: #f99; }
+  .action-btn.wait-btn  { border-color: #555; }
+</style>
+</head>
+<body>
+
+<h1>&#x2605; Daleks &#x2605;</h1>
+
+<div id="ui-panel">
+  <div>Score: <span id="score">0</span></div>
+  <div>Hi: <span id="hi-score">0</span></div>
+  <div>Level: <span id="level">1</span></div>
+  <div>Daleks: <span id="dalek-count">0</span></div>
+  <div>Safe TP: <span id="safe-tp">5</span></div>
+  <div>Sonic: <span id="sonic">&#x2714;</span></div>
+</div>
+
+<div id="board-wrapper">
+  <pre id="game-board"></pre>
+  <div id="message-overlay"></div>
+</div>
+
+<div id="controls">
+  <div id="dpad">
+    <button class="ctrl-btn" id="btn-ul" aria-label="Up-left">&#x2196;</button>
+    <button class="ctrl-btn" id="btn-u"  aria-label="Up">&#x2191;</button>
+    <button class="ctrl-btn" id="btn-ur" aria-label="Up-right">&#x2197;</button>
+    <button class="ctrl-btn" id="btn-l"  aria-label="Left">&#x2190;</button>
+    <button class="ctrl-btn center" id="btn-wait" aria-label="Wait">&#x25CF;</button>
+    <button class="ctrl-btn" id="btn-r"  aria-label="Right">&#x2192;</button>
+    <button class="ctrl-btn" id="btn-dl" aria-label="Down-left">&#x2199;</button>
+    <button class="ctrl-btn" id="btn-d"  aria-label="Down">&#x2193;</button>
+    <button class="ctrl-btn" id="btn-dr" aria-label="Down-right">&#x2198;</button>
+  </div>
+  <div id="action-btns">
+    <button class="ctrl-btn action-btn teleport" id="btn-teleport" aria-label="Unsafe teleport">
+      &#x26A1;<div class="label">Teleport</div>
+    </button>
+    <button class="ctrl-btn action-btn safe-tp" id="btn-safe-tp" aria-label="Safe teleport">
+      &#x2713;<div class="label">Safe TP (<span id="safe-tp2">5</span>)</div>
+    </button>
+    <button class="ctrl-btn action-btn screwd" id="btn-sonic" aria-label="Sonic screwdriver">
+      &#x272A;<div class="label">Sonic</div>
+    </button>
+  </div>
+</div>
+
+<div id="help-section">
+  Keyboard: arrows/numpad/HJKL move &bull; Q/E/Z/C diagonals &bull; space=wait &bull; T=teleport &bull; S=safe TP &bull; B=sonic
+</div>
+
+<script src="daleks.js"></script>
+<script>
+'use strict';
+
+// ── Constants (from daleks.js globals) ──────────────────────────────────────
+const COLS_  = COLS;
+const ROWS_  = ROWS;
+
+// ── State ───────────────────────────────────────────────────────────────────
+let state;
+
+function newGame() {
+  state = initState();
+  state.highScore = loadHighScore();
+  startLevel();
+}
+
+function startLevel() {
+  state.px = Math.floor(state.cols / 2);
+  state.py = Math.floor(state.rows / 2);
+  state.scraps = new Set();
+  state.daleks = spawnDaleks(state);
+  state.screwdriverUses = SCREWDRIVER_PER_LEVEL;
+  state.phase = 'playing';
+  state.turn = 0;
+  hideMessage();
+  render();
+}
+
+// ── Turn processing ──────────────────────────────────────────────────────────
+function tryMove(dx, dy) {
+  if (state.phase !== 'playing') return;
+  const nx = Math.max(0, Math.min(state.cols - 1, state.px + dx));
+  const ny = Math.max(0, Math.min(state.rows - 1, state.py + dy));
+
+  if (checkMoveDeath(nx, ny, state.daleks, state.scraps)) {
+    state.px = nx;
+    state.py = ny;
+    render();
+    killPlayer();
+    return;
+  }
+
+  state.px = nx;
+  state.py = ny;
+  advanceTurn();
+}
+
+function advanceTurn() {
+  const newPositions = moveDaleks(state);
+  const { survivors, newScraps, points, playerKilled } = resolveCollisions(
+    newPositions, state.scraps, state.px, state.py
+  );
+
+  state.scraps = newScraps;
+  state.daleks = survivors;
+  state.score += points;
+  state.turn++;
+
+  render();
+
+  if (playerKilled) {
+    killPlayer();
+    return;
+  }
+
+  if (state.daleks.length === 0) {
+    state.phase = 'level_complete';
+    showMessage([
+      `Level ${state.level} complete!`,
+      `Score: ${state.score}`,
+      '<span class="subtitle">Press Enter or tap to continue</span>'
+    ], true);
+    return;
+  }
+}
+
+function killPlayer() {
+  state.phase = 'dead';
+  saveHighScore();
+  showMessage([
+    'EXTERMINATE!',
+    `Score: ${state.score}`,
+    `<span class="hi">Best: ${state.highScore}</span>`,
+    '<span class="subtitle">Press Enter or tap to play again</span>'
+  ], true);
+}
+
+// ── Special actions ──────────────────────────────────────────────────────────
+function doTeleport(safe) {
+  if (state.phase !== 'playing') return;
+
+  if (safe) {
+    if (state.safeTeleports <= 0) {
+      showMessage(['No safe teleports left!'], false);
+      return;
+    }
+    const candidates = getSafeTeleportCandidates(
+      state.cols, state.rows, state.daleks, state.scraps, state.px, state.py
+    );
+    if (candidates.length === 0) {
+      showMessage(['No safe cell found!'], false);
+      return;
+    }
+    const c = candidates[Math.floor(Math.random() * candidates.length)];
+    state.px = c.x;
+    state.py = c.y;
+    state.safeTeleports--;
+  } else {
+    const empties = [];
+    const dalek_set = new Set(state.daleks.map(d => encodePos(d.x, d.y)));
+    for (let y = 0; y < state.rows; y++) {
+      for (let x = 0; x < state.cols; x++) {
+        if (!dalek_set.has(encodePos(x, y)) && !state.scraps.has(encodePos(x, y))) {
+          empties.push({ x, y });
+        }
+      }
+    }
+    if (empties.length === 0) return;
+    const c = empties[Math.floor(Math.random() * empties.length)];
+    state.px = c.x;
+    state.py = c.y;
+  }
+
+  advanceTurn();
+}
+
+function doScrewdriver() {
+  if (state.phase !== 'playing') return;
+  if (state.screwdriverUses <= 0) {
+    showMessage(['Sonic screwdriver already used!'], false);
+    return;
+  }
+  state.screwdriverUses--;
+
+  const { remaining, points } = applyScrewdriver(state.daleks, state.px, state.py);
+  // Killed Daleks become scrap
+  const killed = state.daleks.filter(d => !remaining.includes(d));
+  for (const d of killed) state.scraps.add(encodePos(d.x, d.y));
+  state.daleks = remaining;
+  state.score += points;
+
+  advanceTurn();
+}
+
+// ── Rendering ────────────────────────────────────────────────────────────────
+const boardEl   = document.getElementById('game-board');
+const overlayEl = document.getElementById('message-overlay');
+const scoreEl   = document.getElementById('score');
+const hiEl      = document.getElementById('hi-score');
+const levelEl   = document.getElementById('level');
+const dalekEl   = document.getElementById('dalek-count');
+const safeTpEl  = document.getElementById('safe-tp');
+const safeTp2El = document.getElementById('safe-tp2');
+const sonicEl   = document.getElementById('sonic');
+
+function render() {
+  const cells = new Array(COLS_ * ROWS_).fill('.');
+  for (const key of state.scraps) {
+    const [x, y] = key.split(',').map(Number);
+    cells[y * COLS_ + x] = '*';
+  }
+  for (const d of state.daleks) {
+    cells[d.y * COLS_ + d.x] = '+';
+  }
+  cells[state.py * COLS_ + state.px] = '@';
+
+  let html = '';
+  for (let row = 0; row < ROWS_; row++) {
+    for (let col = 0; col < COLS_; col++) {
+      const ch = cells[row * COLS_ + col];
+      if (ch === '@') html += '<span class="player">@</span>';
+      else if (ch === '+') html += '<span class="dalek">+</span>';
+      else if (ch === '*') html += '<span class="scrap">*</span>';
+      else html += '.';
+    }
+    html += '\n';
+  }
+  boardEl.innerHTML = html;
+
+  scoreEl.textContent = state.score;
+  hiEl.textContent = state.highScore;
+  levelEl.textContent = state.level;
+  dalekEl.textContent = state.daleks.length;
+  safeTpEl.textContent = state.safeTeleports;
+  safeTp2El.textContent = state.safeTeleports;
+  sonicEl.textContent = state.screwdriverUses > 0 ? '✔' : '✘';
+  sonicEl.style.color = state.screwdriverUses > 0 ? '#9f9' : '#f66';
+}
+
+// ── Messages ─────────────────────────────────────────────────────────────────
+let _msgTimer = null;
+
+function showMessage(lines, persistent) {
+  clearTimeout(_msgTimer);
+  overlayEl.innerHTML = lines.map(l => `<div>${l}</div>`).join('');
+  overlayEl.classList.add('visible');
+  if (!persistent) {
+    _msgTimer = setTimeout(hideMessage, 1600);
+  }
+}
+
+function hideMessage() {
+  overlayEl.classList.remove('visible');
+}
+
+function handleOverlayAction() {
+  if (state.phase === 'dead') {
+    newGame();
+  } else if (state.phase === 'level_complete') {
+    state.level++;
+    startLevel();
+  }
+}
+
+overlayEl.addEventListener('click', handleOverlayAction);
+overlayEl.addEventListener('touchend', e => { e.preventDefault(); handleOverlayAction(); });
+
+// ── Keyboard input ───────────────────────────────────────────────────────────
+const KEY_MAP = {
+  'Numpad7': [-1,-1], 'Numpad8': [0,-1], 'Numpad9': [1,-1],
+  'Numpad4': [-1, 0], 'Numpad5': [0, 0], 'Numpad6': [1, 0],
+  'Numpad1': [-1, 1], 'Numpad2': [0, 1], 'Numpad3': [1, 1],
+  'ArrowLeft': [-1, 0], 'ArrowRight': [1, 0],
+  'ArrowUp': [0, -1], 'ArrowDown': [0, 1],
+  'KeyH': [-1, 0], 'KeyL': [1, 0], 'KeyK': [0,-1], 'KeyJ': [0, 1],
+  'KeyY': [-1,-1], 'KeyU': [1,-1], 'KeyB': [-1, 1], 'KeyN': [1, 1],
+  'KeyQ': [-1,-1], 'KeyE': [1,-1], 'KeyZ': [-1, 1], 'KeyC': [1, 1],
+  'Period': [0, 0], 'Space': [0, 0], 'Digit5': [0, 0],
+};
+
+document.addEventListener('keydown', e => {
+  if (state.phase === 'dead' || state.phase === 'level_complete') {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleOverlayAction();
+    }
+    return;
+  }
+  if (state.phase !== 'playing') return;
+
+  if (KEY_MAP[e.code] !== undefined) {
+    e.preventDefault();
+    const [dx, dy] = KEY_MAP[e.code];
+    tryMove(dx, dy);
+    return;
+  }
+
+  switch (e.key) {
+    case 't': e.preventDefault(); doTeleport(false); break;
+    case 'T':
+    case 'f': e.preventDefault(); doTeleport(true); break;
+    case 's':
+    case 'S': e.preventDefault(); doTeleport(true); break;
+    case 'b':
+    case 'B': e.preventDefault(); doScrewdriver(); break;
+  }
+});
+
+// ── Button controls ───────────────────────────────────────────────────────────
+function bindBtn(id, fn) {
+  const el = document.getElementById(id);
+  el.addEventListener('click', fn);
+  el.addEventListener('touchend', e => { e.preventDefault(); fn(); });
+}
+
+bindBtn('btn-ul',       () => tryMove(-1,-1));
+bindBtn('btn-u',        () => tryMove( 0,-1));
+bindBtn('btn-ur',       () => tryMove( 1,-1));
+bindBtn('btn-l',        () => tryMove(-1, 0));
+bindBtn('btn-wait',     () => tryMove( 0, 0));
+bindBtn('btn-r',        () => tryMove( 1, 0));
+bindBtn('btn-dl',       () => tryMove(-1, 1));
+bindBtn('btn-d',        () => tryMove( 0, 1));
+bindBtn('btn-dr',       () => tryMove( 1, 1));
+bindBtn('btn-teleport', () => doTeleport(false));
+bindBtn('btn-safe-tp',  () => doTeleport(true));
+bindBtn('btn-sonic',    () => doScrewdriver());
+
+// ── Persistence ───────────────────────────────────────────────────────────────
+const LS_KEY = 'daleks_highscore';
+
+function loadHighScore() {
+  return parseInt(localStorage.getItem(LS_KEY) ?? '0', 10);
+}
+
+function saveHighScore() {
+  if (state.score > state.highScore) {
+    state.highScore = state.score;
+    localStorage.setItem(LS_KEY, String(state.highScore));
+  }
+}
+
+// ── Start ─────────────────────────────────────────────────────────────────────
+newGame();
+</script>
+</body>
+</html>
